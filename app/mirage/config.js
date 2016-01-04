@@ -1,4 +1,10 @@
 export default function() {
+  var originalHandle = this.pretender.handleRequest;
+  this.pretender.handleRequest = function() {
+    var ret = originalHandle.apply(this, arguments);
+    console.log('handled requests size', this.handledRequests.length);
+    return ret;
+  }
   this.get('/marketdata', function() {
     return {
       marketdata: [
